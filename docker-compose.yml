@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  db:
+    image: mariadb:10.3
+    container_name: ringsdb-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: ringsdb
+      MYSQL_USER: ringsdb
+      MYSQL_PASSWORD: ringsdb
+    ports:
+      - "3308:3306"
+    volumes:
+      - ringsdb_data:/var/lib/mysql
+    networks:
+      - ringsdb-network
+
+  web:
+    build: .
+    container_name: ringsdb-web
+    ports:
+      - "8001:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - ringsdb-network
+    environment:
+      - PHP_IDE_CONFIG=serverName=ringsdb
+
+volumes:
+  ringsdb_data:
+
+networks:
+  ringsdb-network:
+    driver: bridge

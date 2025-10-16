@@ -45,8 +45,8 @@
                  * if database is older than 10 days, we assume it's obsolete and delete it
                  */
                 var age_of_database = new Date() - new Date(data.masters.cards.metaData().lastChange);
-                if (age_of_database > 864000000) {
-                    console.log('database is older than 10 days => refresh it');
+                if (age_of_database > 60000) {
+                    console.log('database is older than 1 minute => refresh it');
                     data.masters.packs.setData([]);
                     data.masters.cards.setData([]);
                 }
